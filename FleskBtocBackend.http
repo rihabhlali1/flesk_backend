@@ -1,0 +1,6 @@
+@FleskBtocBackend_HostAddress = http://localhost:5217
+
+GET {{FleskBtocBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
