@@ -76,16 +76,57 @@ namespace FleskBtocBackend.Controllers
             return NoContent();
         }
 
-       [HttpGet("category/{categoryId}")]
+        [HttpGet("category/{categoryId}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory(int categoryId, int page = 1, int pageSize = 10)
         {
-          var products = await _context.Products
-          .Where(p => p.CategoryId == categoryId)
-          .Skip((page - 1) * pageSize)
-          .Take(pageSize)
-          .ToListAsync();
+            var products = await _context.Products
+                .Where(p => p.categoryId == categoryId)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
 
-          return Ok(products);
+            return Ok(products);
+        }
+
+        // New search endpoint
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Product>>> Search([FromQuery] string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return BadRequest("Search query cannot be empty.");
+            }
+
+            // Convert the search query to lowercase
+            var lowerQuery = query.ToLower();
+
+            // Fetch and filter products in-memory
+            var products = await _context.Products
+                .Where(p => p.title.ToLower().Contains(lowerQuery))
+                .ToListAsync();
+
+            if (!products.Any())
+            {
+                return NotFound("No products found matching the search criteria.");
+            }
+
+            return Ok(products);
+        }
+
+        // New endpoint to get products with discounts
+        [HttpGet("discounts")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetDiscountedProducts()
+        {
+            var discountedProducts = await _context.Products
+                .Where(p => p.newCustomerDiscount > 0 || p.shippingDiscount > 0)
+                .ToListAsync();
+
+            if (!discountedProducts.Any())
+            {
+                return NotFound("No discounted products found.");
+            }
+
+            return Ok(discountedProducts);
         }
     }
 }

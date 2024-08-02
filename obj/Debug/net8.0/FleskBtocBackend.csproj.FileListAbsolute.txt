@@ -143,3 +143,4 @@ C:\Users\rihab\FleskBtocBackend\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.E
 C:\Users\rihab\FleskBtocBackend\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\rihab\FleskBtocBackend\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\rihab\FleskBtocBackend\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\rihab\FleskBtocBackend\obj\Debug\net8.0\FleskBtocBackend.sourcelink.json

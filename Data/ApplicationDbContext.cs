@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using FleskBtocBackend.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FleskBtocBackend.Data
 {
@@ -10,7 +11,7 @@ namespace FleskBtocBackend.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }  // Correctly define Users as DbSet<User>
+        public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
 
@@ -18,11 +19,37 @@ namespace FleskBtocBackend.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Product>()
-                .Property(p => p.price)  // Ensure property names match exactly
+            // Configure Product entity
+            ConfigureProductEntity(modelBuilder.Entity<Product>());
+        }
+
+        private void ConfigureProductEntity(EntityTypeBuilder<Product> entity)
+        {
+            entity.Property(p => p.price)
                 .HasColumnType("decimal(18,2)");
 
-            // Configure relationships and other model configurations here
+            entity.Property(p => p.discount)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.freeShippingThreshold)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.newCustomerDiscount)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.newCustomerLimit)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.originalPrice)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.rating)
+                .HasColumnType("decimal(18,2)");
+
+            entity.Property(p => p.shippingDiscount)
+                .HasColumnType("decimal(18,2)");
+
+            // Add any additional configuration here, e.g., relationships or indexes
         }
     }
 }
